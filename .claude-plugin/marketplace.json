@@ -1,0 +1,16 @@
+{
+  "name": "gokul-hub",
+  "owner": {
+    "name": "gokulkrishnan1293"
+  },
+  "metadata": {
+    "description": "gokul-hub: one Claude Code mod hosting my other mods."
+  },
+  "plugins": [
+    {
+      "name": "gokul-hub",
+      "source": "./",
+      "description": "One hub for my mods: flags, context weather, plan limits, edit replay and a guard on risky shell commands."
+    }
+  ]
+}

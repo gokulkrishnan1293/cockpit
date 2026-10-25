@@ -1,0 +1,10 @@
+gokul-hub
+
+Portions of this software are derived from the token-weather, blast-radius
+and replay-theater mods in claude-code-playground
+(https://github.com/anthropics/claude-code-playground),
+Copyright 2026 Anthropic PBC, licensed under the Apache License, Version 2.0.
+
+Changes: combined into one mod with a shared hub pane and band; ported to
+TypeScript; state moved to $.state; rate-limit display added to the context
+"weather"; hold history and flags added to Blast Radius.

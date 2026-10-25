@@ -1,0 +1,10 @@
+{
+  "name": "gokul-hub",
+  "version": "0.1.0",
+  "description": "One hub for my mods: a side pane that flags what's worth knowing, plus context weather, plan limits, edit replay and a guard on risky shell commands.",
+  "author": {
+    "name": "gokulkrishnan1293"
+  },
+  "types": "./types/index.d.ts",
+  "keywords": ["mods", "hub", "usage", "safety"]
+}

@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root { --bg:#1E1E1E; --fg:#E6E6E6; --muted:#8B8B8B; --accent:#3794FF; --teal:#4EC9B0; --green:#89D185; --red:#F14C4C; --amber:#CCA700; }
+  html,body { margin:0; width:1920px; height:1080px; overflow:hidden; background:#0B0B0C; }
+  body { font-family: -apple-system, "SF Pro Display", "Helvetica Neue", sans-serif; color:var(--fg); }
+  #stage { position:absolute; inset:0; overflow:hidden; background:radial-gradient(1200px 700px at 50% 45%, #1b2330 0%, #0B0B0C 70%); }
+  .layer { position:absolute; inset:0; opacity:0; will-change:transform,opacity; }
+  .shot { position:absolute; left:0; top:0; width:1680px; height:960px; transform-origin:0 0; border-radius:14px; box-shadow:0 40px 120px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.06); }
+  .cap { position:absolute; left:120px; bottom:150px; max-width:1500px; }
+  .cap h1 { margin:0; font-size:92px; font-weight:800; letter-spacing:-2.5px; line-height:1.02; }
+  .cap p { margin:18px 0 0; font-size:40px; font-weight:500; color:#C9C9C9; letter-spacing:-.4px; }
+  .center { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+  .hook1 { font-size:96px; font-weight:800; letter-spacing:-3px; }
+  .hook2 { font-size:96px; font-weight:800; letter-spacing:-3px; color:var(--accent); margin-top:14px; }
+  .logo { font-size:150px; font-weight:900; letter-spacing:-5px; }
+  .logo .dia { color:var(--accent); }
+  .tag { font-size:42px; color:#BDBDBD; margin-top:10px; font-weight:500; }
+  .mono { font-family: Menlo, monospace; font-size:34px; background:#151515; border:1px solid #333; border-radius:12px; padding:22px 34px; margin-top:54px; color:#D4D4D4; }
+  .mono .k { color:var(--teal); } .mono .p { color:var(--accent); }
+  .repo { margin-top:26px; font-size:30px; color:var(--muted); font-family: Menlo, monospace; }
+  .bar { position:absolute; left:0; right:0; height:86px; background:#000; z-index:50; }
+  .wipe { position:absolute; top:-20%; height:140%; width:520px; z-index:40; background:linear-gradient(90deg, rgba(55,148,255,0) 0%, rgba(55,148,255,.55) 45%, rgba(255,255,255,.9) 50%, rgba(78,201,176,.55) 55%, rgba(78,201,176,0) 100%); transform:skewX(-18deg); filter:blur(6px); opacity:0; }
+  .chip { display:inline-block; padding:6px 18px; border-radius:999px; border:2px solid currentColor; font-size:34px; font-weight:700; margin-right:14px; }
+  .shade { position:absolute; left:0; right:0; bottom:0; height:62%; background:linear-gradient(180deg, rgba(11,11,12,0) 0%, rgba(11,11,12,.78) 55%, rgba(11,11,12,.94) 100%); z-index:2; }
+  .cap { z-index:3; }
+  .win { position:absolute; overflow:hidden; border-radius:16px; box-shadow:0 40px 120px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.08); }
+  .win img { position:absolute; left:0; top:0; transform-origin:0 0; }
+  .label { position:absolute; font-size:28px; font-weight:700; letter-spacing:.5px; color:#9A9A9A; text-transform:uppercase; }
+  .glow { position:absolute; border-radius:16px; box-shadow:0 0 0 3px rgba(55,148,255,.9), 0 0 60px rgba(55,148,255,.45); opacity:0; z-index:5; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="s1" class="layer"><div class="center"><div id="h1" class="hook1">Claude is editing your files.</div><div id="h2" class="hook2">Can you see every move?</div></div></div>
+
+  <div id="s2" class="layer"><img id="i2" class="shot" src="../screenshots/dark-04-activity.png"><div class="shade"></div>
+    <div id="c2" class="cap"><h1><span style="color:var(--accent)">◆</span> gokul-hub</h1><p>A VS Code–style sidebar for Claude Code</p></div></div>
+
+  <div id="s3" class="layer"><img id="i3" class="shot" src="../screenshots/dark-02-approval-edit.png"><div class="shade"></div>
+    <div id="c3" class="cap"><h1>Approve on cards.</h1><p><span class="chip" style="color:var(--accent)">1 Allow</span><span class="chip" style="color:#C9C9C9">2 Deny</span><span class="chip" style="color:#C9C9C9">3 More options</span></p></div></div>
+
+  <div id="s4" class="layer"><img id="i4" class="shot" src="../screenshots/dark-05-blast-radius.png"><div class="shade"></div>
+    <div id="c4" class="cap"><h1>See the blast radius</h1><p>before <span style="font-family:Menlo,monospace;color:var(--red)">rm -rf</span> runs.</p></div></div>
+
+  <div id="s5" class="layer">
+    <div id="w5a" class="win" style="left:110px; top:190px; width:820px; height:380px"><img id="i5a" src="../screenshots/dark-06-usage.png"></div>
+    <div id="w5b" class="win" style="left:990px; top:190px; width:820px; height:380px"><img id="i5b" src="../screenshots/light-usage.png"></div>
+    <div id="l5a" class="label" style="left:112px; top:140px">Dark</div><div id="l5b" class="label" style="left:992px; top:140px">Light</div>
+    <div id="c5" class="cap" style="bottom:170px"><h1>Your limits. Dark or light.</h1><p>Session, week and context, one glance away.</p></div></div>
+
+  <div id="s6" class="layer"><div class="center">
+    <div class="logo"><span class="dia">◆</span> gokul-hub</div>
+    <div class="tag">Your terminal, as a workspace.</div>
+    <div class="mono"><span class="p">/plugin install</span> gokul-hub <span class="k">--marketplace</span> gokulkrishnan1293/gokul-hub</div>
+    <div class="repo">github.com/gokulkrishnan1293/gokul-hub</div>
+  </div></div>
+
+  <div id="wipe" class="wipe"></div>
+  <div class="bar" style="top:0"></div><div class="bar" style="bottom:0"></div>
+</div>
+<script>
+const W = 1920, H = 1080, IW = 1680, IH = 960
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x))
+const ease = x => { x = clamp(x); return x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x + 2, 3) / 2 }
+const out = x => 1 - Math.pow(1 - clamp(x), 3)
+const span = (t, a, b) => clamp((t - a) / (b - a))
+const $ = id => document.getElementById(id)
+
+// Frames an image so `rect` (in screenshot pixels) fills `fill` of the frame.
+function frame(img, rect, fill, dx = 0, dy = 0) {
+  const s = Math.min(W * fill / rect.w, (H - 172) * fill / rect.h)
+  const cx = rect.x + rect.w / 2, cy = rect.y + rect.h / 2
+  img.style.transform = `translate(${W/2 - cx*s + dx}px, ${H/2 - cy*s + dy}px) scale(${s})`
+}
+const lerpRect = (a, b, k) => ({ x: a.x + (b.x-a.x)*k, y: a.y + (b.y-a.y)*k, w: a.w + (b.w-a.w)*k, h: a.h + (b.h-a.h)*k })
+const FULL = { x: 0, y: 0, w: IW, h: IH }
+
+// Scene window: fades in over `fin`s from a, out over `fout`s before b.
+function vis(t, a, b, fin = .35, fout = .3) {
+  if (t < a || t >= b) return 0
+  return Math.min(out((t - a) / fin), out((b - t) / fout))
+}
+
+function caption(el, t, a, b) {
+  const k = out(span(t, a, a + .6))
+  const leave = clamp((b - t) / .25)
+  el.style.opacity = Math.min(k, leave)
+  el.style.transform = `translateY(${(1 - k) * 40}px)`
+}
+
+function render(t) {
+  // 1 Hook 0-3
+  $('s1').style.opacity = vis(t, 0, 3.0, .25, .35)
+  const k1 = out(span(t, .15, .7)), k2 = out(span(t, 1.5, 2.0))
+  $('h1').style.opacity = k1; $('h1').style.transform = `translateY(${(1-k1)*30}px)`
+  $('h2').style.opacity = k2; $('h2').style.transform = `translateY(${(1-k2)*30}px)`
+
+  // 2 Reveal 3-7: whole UI, slow push toward the sidebar
+  $('s2').style.opacity = vis(t, 3.0, 7.0, .3, .3)
+  frame($('i2'), lerpRect(FULL, { x: 560, y: 0, w: 1120, h: 640 }, ease(span(t, 3.0, 7.0))), .92)
+  caption($('c2'), t, 3.5, 7.0)
+
+  // 3 Approvals 7-11: from the sidebar into the card
+  $('s3').style.opacity = vis(t, 7.0, 11.0, .3, .3)
+  frame($('i3'), lerpRect({ x: 930, y: 0, w: 740, h: 420 }, { x: 936, y: 30, w: 724, h: 125 }, ease(span(t, 7.0, 9.2))), .8, 0, -120)
+  caption($('c3'), t, 7.6, 11.0)
+
+  // 4 Blast Radius 11-15
+  $('s4').style.opacity = vis(t, 11.0, 15.0, .3, .3)
+  frame($('i4'), lerpRect({ x: 930, y: 0, w: 740, h: 420 }, { x: 936, y: 30, w: 724, h: 168 }, ease(span(t, 11.0, 13.2))), .8, 0, -110)
+  caption($('c4'), t, 11.6, 15.0)
+
+  // 5 Limits, dark then light 15-18
+  $('s5').style.opacity = vis(t, 15.0, 18.0, .3, .3)
+  // Each window shows the Usage panel (x 936-1660, y 84-350 of the screenshot).
+  const sc = 820 / 724
+  for (const [win, img, label, start, from] of [['w5a', 'i5a', 'l5a', 15.0, -1], ['w5b', 'i5b', 'l5b', 15.5, 1]]) {
+    const k = ease(span(t, start, start + 1.0))
+    $(img).style.transform = `translate(${-936 * sc}px, ${-78 * sc}px) scale(${sc})`
+    $(img).style.width = '1680px'
+    $(win).style.opacity = k
+    $(win).style.transform = `translateX(${(1 - k) * 160 * from}px)`
+    $(label).style.opacity = k
+  }
+  caption($('c5'), t, 16.0, 18.0)
+
+  // 6 Outro 18-21
+  $('s6').style.opacity = vis(t, 18.0, 21.01, .35, .01)
+  const ko = out(span(t, 18.0, 18.8))
+  document.querySelector('#s6 .center').style.transform = `scale(${0.94 + 0.06*ko})`
+
+  // Light-sweep wipes into each cut (on the beat)
+  const cuts = [3.0, 7.0, 11.0, 15.0, 18.0]
+  let w = 0, x = -800
+  for (const c of cuts) {
+    const p = span(t, c - .35, c + .35)
+    if (p > 0 && p < 1) { w = Math.sin(p * Math.PI); x = -700 + p * (W + 1400) }
+  }
+  const wipe = $('wipe'); wipe.style.opacity = w * .9; wipe.style.left = `${x}px`
+}
+window.render = render
+window.ready = Promise.all([...document.images].map(i => i.decode())).then(() => document.fonts.ready)
+render(0)
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+Claude Code, with a sidebar. gokul-hub shows every tool call as a card, puts approvals on buttons, and measures the blast radius before rm -rf runs, in VS Code dark or light. /plugin install gokul-hub --marketplace gokulkrishnan1293/gokul-hub

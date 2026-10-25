@@ -11,7 +11,7 @@
 - **Browser**: optional terminal-browser integration (⧉ Browser, Open ↗ on cards with a page).
 - **`/hub-doctor`** for troubleshooting.
 - Fix: decisions wait on a `sleep` process, not `$.clock`, so a hold no longer runs out the hook's 10-second budget.
-- Docs: screenshots, walkthrough videos and VHS recording scripts.
+- Docs: screenshots, walkthrough videos, VHS recording scripts, and a 21s launch video (/brag-slim, cinematic) with its sources.
 
 ## 0.1.0
 

@@ -2,13 +2,17 @@
 
 A Claude Code mod that turns the terminal into a VS Code–style workspace: a **sidebar of operation cards** on the right, **approval cards with buttons**, a guard on risky shell commands, context and plan-limit "weather", edit replay, and a **dark / light theme switcher**. One mod hosts them all, so they share one sidebar and one line above the prompt instead of fighting over it.
 
+[![gokul-hub launch video: click to play](docs/video/launch.jpg)](docs/video/launch.mp4)
+
+▶ **[Watch the 21-second launch video](docs/video/launch.mp4)**, or the walkthrough below.
+
 ![gokul-hub walkthrough](docs/video/walkthrough-dark.gif)
 
 | Dark (VS Code Dark) | Light (VS Code Light) |
 | --- | --- |
 | ![Activity cards, dark](docs/screenshots/dark-04-activity.png) | ![Activity cards, light](docs/screenshots/light-activity.png) |
 
-Full-length recordings: [dark](docs/video/walkthrough-dark.mp4) · [light](docs/video/walkthrough-light.mp4).
+Full-length recordings: [dark](docs/video/walkthrough-dark.mp4) · [light](docs/video/walkthrough-light.mp4). How the launch video was made: [docs/launch-video](docs/launch-video/README.md).
 
 ---
 

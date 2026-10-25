@@ -1,0 +1,29 @@
+{
+  "name": "VS Code Light",
+  "base": "light",
+  "overrides": {
+    "text": "#3B3B3B",
+    "inverseText": "#FFFFFF",
+    "inactive": "#6E7681",
+    "subtle": "#9E9E9E",
+    "suggestion": "#005FB8",
+    "remember": "#AF00DB",
+    "success": "#388A34",
+    "error": "#E51400",
+    "warning": "#BF8803",
+    "merged": "#AF00DB",
+    "claude": "#005FB8",
+    "permission": "#005FB8",
+    "planMode": "#267F99",
+    "autoAccept": "#AF00DB",
+    "promptBorder": "#B0B0B0",
+    "bashBorder": "#795E26",
+    "ide": "#005FB8",
+    "diffAdded": "#DDF4D7",
+    "diffRemoved": "#FADBD8",
+    "diffAddedDimmed": "#EEF8EA",
+    "diffRemovedDimmed": "#FCEDEB",
+    "diffAddedWord": "#B5E0A8",
+    "diffRemovedWord": "#F4B8B0"
+  }
+}

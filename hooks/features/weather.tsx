@@ -7,6 +7,7 @@ import type { EngineInterface, On, RenderElement, RenderInput } from 'claude-cod
 
 import type { Flag, Limit, Reading } from '../../types'
 import { short } from '../hub'
+import { pal } from '../theme'
 
 const HISTORY = 12
 const TICK_MS = 60_000
@@ -14,12 +15,13 @@ const BARS = '▁▂▃▄▅▆▇█'
 
 // Forecast bands, by percent of the window used. Single-width symbols, not
 // emoji: they line up in every terminal font.
+// Colours by palette role, so they read on light and dark backgrounds.
 const FORECAST = [
-  { upTo: 25, icon: '☀', word: 'Clear', color: 'yellow' },
-  { upTo: 50, icon: '☁', word: 'Cloudy', color: 'cyan' },
-  { upTo: 75, icon: '☂', word: 'Showers', color: 'blue' },
-  { upTo: 90, icon: '☇', word: 'Storm', color: 'magenta' },
-  { upTo: Infinity, icon: '↯', word: 'Compact soon', color: 'red' },
+  { upTo: 25, icon: '☀', word: 'Clear', role: 'warning' },
+  { upTo: 50, icon: '☁', word: 'Cloudy', role: 'accent2' },
+  { upTo: 75, icon: '☂', word: 'Showers', role: 'accent' },
+  { upTo: 90, icon: '☇', word: 'Storm', role: 'warning' },
+  { upTo: Infinity, icon: '↯', word: 'Compact soon', role: 'error' },
 ] as const
 
 const readings = atom({ plugin: 'gokul-hub', key: 'readings' } as const, [], { shape: 'readings-1' })
@@ -162,22 +164,22 @@ export async function weatherSummary($: EngineInterface): Promise<string | null>
 export async function weatherSection($: EngineInterface, e: RenderInput, columns: number): Promise<RenderElement | null> {
   const { Box, Text } = $.ui.resolve(e)
   const { list, last, session, week, clock } = await snapshot($)
-  if (!last && !session && !week) return <Text dimColor>No reading yet: one comes after the first reply.</Text>
+  if (!last && !session && !week) return <Text color={pal().muted}>No reading yet: one comes after the first reply.</Text>
   const rows = []
   if (last) {
     const f = forecastFor(last.percent)
     rows.push(
       <Box key="ctx" flexDirection="row" gap={1}>
-        <Text color={f.color} bold>{f.icon} {f.word}</Text>
+        <Text color={pal()[f.role]} bold>{f.icon} {f.word}</Text>
         <Text>{last.percent}% of context</Text>
-        <Text dimColor>{short(last.tokens)} / {short(last.window)}</Text>
+        <Text color={pal().muted}>{short(last.tokens)} / {short(last.window)}</Text>
       </Box>,
     )
     if (list.length > 1 && columns >= 30) {
       rows.push(
         <Box key="chart" flexDirection="row" gap={1}>
-          <Text dimColor>last turns</Text>
-          <Text color={f.color}>{chart(list)}</Text>
+          <Text color={pal().muted}>last turns</Text>
+          <Text color={pal()[f.role]}>{chart(list)}</Text>
         </Box>,
       )
     }
@@ -187,9 +189,9 @@ export async function weatherSection($: EngineInterface, e: RenderInput, columns
     const resets = untilReset(session.resetsAt, clock)
     rows.push(
       <Box key="session" flexDirection="row" gap={1}>
-        <Text dimColor>Session</Text>
-        <Text color={used >= 90 ? 'red' : used >= 75 ? 'yellow' : undefined} bold={used >= 75}>{used}% used</Text>
-        {resets ? <Text dimColor>· resets in {resets}</Text> : null}
+        <Text color={pal().muted}>Session</Text>
+        <Text color={used >= 90 ? pal().error : used >= 75 ? pal().warning : pal().text} bold={used >= 75}>{used}% used</Text>
+        {resets ? <Text color={pal().muted}>· resets in {resets}</Text> : null}
       </Box>,
     )
   }
@@ -200,10 +202,10 @@ export async function weatherSection($: EngineInterface, e: RenderInput, columns
     rows.push(
       <Box key="week" flexDirection="column">
         <Box flexDirection="row" gap={1}>
-          <Text dimColor>Week</Text>
-          <Text color={left <= 10 ? 'red' : left <= 25 ? 'yellow' : undefined} bold={left <= 25}>{left}% left</Text>
+          <Text color={pal().muted}>Week</Text>
+          <Text color={left <= 10 ? pal().error : left <= 25 ? pal().warning : pal().text} bold={left <= 25}>{left}% left</Text>
         </Box>
-        {when ? <Text dimColor>  resets {when}{resets ? ` (in ${resets})` : ''}</Text> : null}
+        {when ? <Text color={pal().muted}>  resets {when}{resets ? ` (in ${resets})` : ''}</Text> : null}
       </Box>,
     )
   }

@@ -1,10 +1,40 @@
 {
   "name": "gokul-hub",
-  "version": "0.1.0",
-  "description": "One hub for my mods: a side pane that flags what's worth knowing, plus context weather, plan limits, edit replay and a guard on risky shell commands.",
+  "version": "0.2.0",
+  "description": "One hub for my mods: a VS Code themed sidebar of operation cards, approval cards, flags, context and plan limits, edit replay and a guard on risky shell commands.",
   "author": {
     "name": "gokulkrishnan1293"
   },
   "types": "./types/index.d.ts",
-  "keywords": ["mods", "hub", "usage", "safety"]
+  "keywords": [
+    "mods",
+    "hub",
+    "usage",
+    "safety"
+  ],
+  "userConfig": {
+    "theme": {
+      "type": "string",
+      "title": "Theme",
+      "description": "VS Code look for Claude Code and the hub's cards; off leaves your theme alone.",
+      "options": [
+        "vscode-dark",
+        "vscode-light",
+        "off"
+      ],
+      "default": "vscode-dark"
+    },
+    "sidebar": {
+      "type": "boolean",
+      "title": "Sidebar",
+      "description": "Show operations as cards in the hub sidebar, with compact rows in the conversation. Off draws the cards in the conversation.",
+      "default": true
+    },
+    "approvalCards": {
+      "type": "boolean",
+      "title": "Approval cards",
+      "description": "Ask for tool approvals with gokul-hub cards (Allow, Deny, More options). Off uses Claude Code's own prompt.",
+      "default": true
+    }
+  }
 }

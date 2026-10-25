@@ -26,6 +26,24 @@ export type Hold = {
   decision: 'waiting' | 'proceed' | 'cancel' | 'timeout' | 'interrupted' | 'error'
 }
 
+/** One tool call, as its card shows it. */
+export type Op = {
+  id: string
+  tool: string
+  icon: string
+  detail: string
+  status: 'running' | 'done' | 'error' | 'denied'
+  ms?: number
+  preview: string[]
+  diff?: DiffLine[]
+  isSubagent?: boolean
+  /** A page the card can open in the browser: a fetch's URL, a dev server's. */
+  url?: string
+}
+
+/** The hub's tabs. */
+export type HubTab = 'activity' | 'flags' | 'usage'
+
 declare module 'claude-code' {
   interface PluginState {
     'gokul-hub': {
@@ -36,6 +54,8 @@ declare module 'claude-code' {
       replayIndex: number
       replayOpen: boolean
       holds: Shaped<Hold[]>
+      ops: Shaped<Op[]>
+      tab: HubTab
     }
   }
 }

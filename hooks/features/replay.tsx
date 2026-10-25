@@ -37,7 +37,7 @@ function splitLines(text: unknown) {
 
 // A line diff: LCS for small inputs, so unchanged lines show as context;
 // all-removed then all-added for large ones.
-function diffLines(oldText: unknown, newText: unknown): DiffLine[] {
+export function diffLines(oldText: unknown, newText: unknown): DiffLine[] {
   const a = splitLines(oldText)
   const b = splitLines(newText)
   if (a.length > MAX_LCS_LINES || b.length > MAX_LCS_LINES) {
@@ -199,6 +199,22 @@ async function replayView($: EngineInterface, e: RenderInput & { component: 'Pan
   )
 }
 
+// Called by the hub's one tool.call hook before an edit runs. Recording must
+// never stop the edit.
+export async function replayRecord($: EngineInterface, e: Record<string, unknown>) {
+  if (!EDIT_TOOLS.has(String(e.tool))) return
+  try {
+    pending.push(...(await stepsFor($, e)))
+  } catch {
+    // skip this one
+  }
+}
+
+// Called by the hub's one ui.close hook.
+export async function replayClosed($: EngineInterface, id: string | undefined) {
+  if (id === PANE) await update($, isOpen, () => false)
+}
+
 // Called by the hub's one session.start hook.
 export async function replaySessionStart($: EngineInterface) {
   await $.command.register({ name: 'replay', description: "gokul-hub: step through the last turn's file edits" })
@@ -221,29 +237,12 @@ export function registerReplay(on: On) {
     return { text: opened ? `Replay: ${total} edits` : 'Replay: no edits in the last turn.' }
   })
 
-  // Record each edit, then let it run. Recording must never stop the edit.
-  on('tool.call', async ($, e, next) => {
-    if (EDIT_TOOLS.has(e.tool)) {
-      try {
-        pending.push(...(await stepsFor($, e as unknown as Record<string, unknown>)))
-      } catch {
-        // skip this one
-      }
-    }
-    return next(e)
-  }).catch(($, e, next) => next(e))
-
   on('turn.start', ($, e, next) => {
     if (!e.agentId) pending = []
     return next(e)
   })
 
   on('ui.render', { component: 'Pane', requestId: PANE }, ($, e) => replayView($, e))
-
-  on('ui.close', async ($, e, next) => {
-    if (e.id === PANE) await update($, isOpen, () => false)
-    return next(e)
-  }).catch(($, e, next) => next(e))
 }
 
 export async function replaySummary($: EngineInterface): Promise<string | null> {

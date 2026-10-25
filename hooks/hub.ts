@@ -6,6 +6,17 @@
 
 export const HUB_PANE = 'gokul-hub'
 
+// Whether the hub pane is drawn now: set as it draws, cleared as it closes.
+let isShowing = false
+
+export function setHubShowing(value: boolean) {
+  isShowing = value
+}
+
+export function hubIsShowing() {
+  return isShowing
+}
+
 export const LEVEL_COLOR = { alert: 'red', warn: 'yellow', info: undefined } as const
 export const LEVEL_RANK = { alert: 0, warn: 1, info: 2 } as const
 

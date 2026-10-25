@@ -1,0 +1,29 @@
+{
+  "name": "VS Code Dark",
+  "base": "dark",
+  "overrides": {
+    "text": "#CCCCCC",
+    "inverseText": "#1F1F1F",
+    "inactive": "#9D9D9D",
+    "subtle": "#6E7681",
+    "suggestion": "#3794FF",
+    "remember": "#C586C0",
+    "success": "#89D185",
+    "error": "#F14C4C",
+    "warning": "#CCA700",
+    "merged": "#C586C0",
+    "claude": "#3794FF",
+    "permission": "#3794FF",
+    "planMode": "#4EC9B0",
+    "autoAccept": "#C586C0",
+    "promptBorder": "#6E7681",
+    "bashBorder": "#DCDCAA",
+    "ide": "#3794FF",
+    "diffAdded": "#373D29",
+    "diffRemoved": "#4B1818",
+    "diffAddedDimmed": "#2A2D20",
+    "diffRemovedDimmed": "#3A1A1A",
+    "diffAddedWord": "#587C0C",
+    "diffRemovedWord": "#94151B"
+  }
+}

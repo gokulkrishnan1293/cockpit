@@ -39,11 +39,11 @@ The main session. Its lights chase while Claude works on a turn and rest when id
 
 Every figure counts **used**, so every bar fills the same way. On the two limits a **┃** marks even pace: where you'd be if you spread the limit evenly over its window. The colour follows the pace: blue on or under it, yellow when burning faster than the time, red when you'd run out before the reset (or past 90%). Under each, the forecast: `lasts to reset ✓`, `burning fast` or `empty in ~1h 40m` for the session; `on pace · ~68% by reset ✓` or `runs out Wed ~3pm ✗` for the week. The pace needs ten minutes of the window first.
 
-When a figure changes, its bar slides to the new value; at 90% or more, the tip of its bar pulses. Plan limits show on a Claude subscription after the session's first reply. The week's readings are kept across sessions, so the strip fills in as you use Claude Code; its figures come from your account, so they include claude.ai and your other devices. Context and session sit side by side; where the pane is narrow, they stack.
+When a figure changes, its bar slides to the new value; at 90% or more, the tip of its bar pulses. Once a limit's reset time passes with no reply since (the figures only come with replies), its bar slides to empty and reads `✓ reset · fresh 5h` (or `fresh week`) until the next reply brings the new window's figures. Plan limits show on a Claude subscription after the session's first reply. The week's readings are kept across sessions, so the strip fills in as you use Claude Code; its figures come from your account, so they include claude.ai and your other devices. Context and session sit side by side; where the pane is narrow, they stack.
 
 ## Subagents
 
-One row per subagent, two lines each:
+Subagents sits under the card as a tab with its running count: a folder tab drawn in box-drawing characters in the terminal, a rounded chip on the desktop app, VS Code and mobile. One row per subagent, two lines each:
 
 - its type and task, model and running time, and **Open ↗**;
 - its own context bar (its tokens against its model's window, estimated), and the tool it's running now.
@@ -86,8 +86,6 @@ hooks/hub.ts          what the features share
 types/index.d.ts      the values kept in $.state
 tests/hub.test.tsx    the scene, bars, subagent rows, jumping in, and the SVG surfaces
 ```
-
-Earlier features of gokul-hub, this mod's old name (Activity cards, Flags, Blast Radius, Replay, Browser) are in git history at `20e4545`, to be added back one by one.
 
 ## Credits
 

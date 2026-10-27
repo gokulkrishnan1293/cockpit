@@ -1,142 +1,64 @@
-// The look: VS Code Dark Modern / Light Modern colours for the hub's cards,
-// and switching Claude Code's own theme to match (themes/vscode-*.json).
+// The look: VS Code Dark Modern / Light Modern colours, picked to match
+// Claude Code's own theme. The pane's background is that theme, so the mod
+// reads it and never changes it.
 
 import type { EngineInterface } from 'claude-code'
 
-export type ThemeSetting = 'vscode-dark' | 'vscode-light' | 'off'
-
 export type Palette = {
   accent: string
-  accent2: string
   success: string
-  error: string
   warning: string
+  error: string
+  errorDim: string
   muted: string
+  track: string
   border: string
-  text: string | undefined
-  added: string
-  removed: string
+  text: string
+  /** The text colour as a hex, for SVG markup, which can't name a theme key. */
+  ink: string
 }
 
+// Text is the theme's own key: always readable on the pane's background.
 const DARK: Palette = {
   accent: '#3794FF',
-  accent2: '#4EC9B0',
   success: '#89D185',
-  error: '#F14C4C',
   warning: '#CCA700',
-  muted: '#858585',
+  error: '#F14C4C',
+  errorDim: '#6E2424',
+  muted: '#9D9D9D',
+  track: '#5A5A5A',
   border: '#454545',
-  text: undefined,
-  added: '#89D185',
-  removed: '#F14C4C',
+  text: 'text',
+  ink: '#CCCCCC',
 }
 
 const LIGHT: Palette = {
   accent: '#005FB8',
-  accent2: '#267F99',
   success: '#388A34',
-  error: '#E51400',
   warning: '#BF8803',
+  error: '#E51400',
+  errorDim: '#F5B5AE',
   muted: '#6E7681',
+  track: '#C8C8C8',
   border: '#C8C8C8',
-  text: undefined,
-  added: '#388A34',
-  removed: '#E51400',
+  text: 'text',
+  ink: '#3B3B3B',
 }
 
-// Theme off: the person's own theme's colours, by key.
-const NATIVE: Palette = {
-  accent: 'suggestion',
-  accent2: 'planMode',
-  success: 'success',
-  error: 'error',
-  warning: 'warning',
-  muted: 'inactive',
-  border: 'promptBorder',
-  text: undefined,
-  added: 'success',
-  removed: 'error',
-}
-
-// Set once per load from the mod's options: a change in /config reloads it.
-let setting: ThemeSetting = 'vscode-dark'
-
-export function setThemeSetting(value: unknown) {
-  setting = value === 'vscode-light' || value === 'off' ? value : 'vscode-dark'
-}
-
-export function themeSetting(): ThemeSetting {
-  return setting
-}
-
-// Whether the theme in effect is a light one: the pane's background follows
-// it, so the accents do too. Read when the theme is applied.
+// Whether Claude Code's theme is a light one, as last read.
 let isLightUi = false
 
 export function pal(): Palette {
-  if (setting === 'off') return NATIVE
   return isLightUi ? LIGHT : DARK
 }
 
-const PREVIOUS_THEME = 'previousTheme'
-
-/**
- * Puts Claude Code's theme in step with the setting: the mod's VS Code theme
- * where the theme row offers it, else the built-in dark or light. Keeps the
- * person's own theme to put back when the setting is turned off.
- */
-export async function applyTheme($: EngineInterface): Promise<string | null> {
+/** Reads Claude Code's theme so the colours match it. */
+export async function readTheme($: EngineInterface) {
   const row = (await $.config.list()).find(r => r.key === 'theme')
-  if (!row) return null
-  const current = String(row.value)
-  isLightUi = current.includes('light')
-  if (row.isLocked) return null
-  const isOurs = (v: string) => /vscode-(dark|light)$/.test(v)
-
-  if (setting === 'off') {
-    const previous = await $.store.get(PREVIOUS_THEME)
-    if (typeof previous === 'string' && (isOurs(current) || previous !== current)) {
-      await $.config.set({ key: 'theme', value: previous })
-      await $.store.delete(PREVIOUS_THEME)
-      return previous
-    }
-    return null
-  }
-
-  const want = setting === 'vscode-light' ? 'light' : 'dark'
-  const custom = (row.options ?? []).find(o => o.endsWith(`vscode-${want}`))
-  const target = custom ?? want
-  if (current === target) return null
-  if (!isOurs(current) && (await $.store.get(PREVIOUS_THEME)) === undefined) {
-    await $.store.set(PREVIOUS_THEME, current)
-  }
-  const { deny } = await $.config.set({ key: 'theme', value: target })
-  if (deny) return null
-  isLightUi = want === 'light'
-  return target
+  if (row) themeChanged(row.value)
 }
 
-/** What /hub-doctor reports about the theme: the row, and a set and read-back. */
-export async function themeReport($: EngineInterface): Promise<string> {
-  const row = (await $.config.list()).find(r => r.key === 'theme')
-  if (!row) return 'theme row: none'
-  const lines = [
-    `setting: ${setting}`,
-    `theme now: ${String(row.value)}${row.isLocked ? ' (locked)' : ''}`,
-    `offered: ${(row.options ?? []).join(', ')}`,
-  ]
-  if (setting !== 'off') {
-    const want = setting === 'vscode-light' ? 'light' : 'dark'
-    const target = (row.options ?? []).find(o => o.endsWith(`vscode-${want}`)) ?? want
-    const res = await $.config.set({ key: 'theme', value: target })
-    const after = (await $.config.list()).find(r => r.key === 'theme')?.value
-    lines.push(`set ${target}: ${res.deny ? `refused (${res.deny})` : 'accepted'}; reads back ${String(after)}`)
-  }
-  return lines.join('\n')
-}
-
-/** Flips dark and light through the mod's own /config row; the change reloads it. */
-export async function toggleTheme($: EngineInterface) {
-  const next = setting === 'vscode-light' ? 'vscode-dark' : 'vscode-light'
-  await $.config.set({ key: 'gokul-hub.theme', value: next })
+/** Called after any change to the theme row, from /theme or /config. */
+export function themeChanged(value: unknown) {
+  isLightUi = String(value).includes('light')
 }

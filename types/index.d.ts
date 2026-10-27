@@ -1,61 +1,54 @@
-// The values gokul-hub keeps in $.state. They outlive a reload, so a change
+// The values cockpit keeps in $.state. They outlive a reload, so a change
 // to a Shaped value's fields needs a new shape tag where its atom is made.
 
-/** How loud a flag is: alert (red), warn (yellow), info (dim). */
-export type FlagLevel = 'alert' | 'warn' | 'info'
-
-/** Something worth knowing, shown at the top of the hub pane. */
-export type Flag = { id: string; level: FlagLevel; text: string }
-
-/** One context-window reading, taken after a main-loop turn. */
-export type Reading = { tokens: number; window: number; percent: number }
+/** The context window's fill: tokens is absent before the first reply. */
+export type Context = { tokens?: number; window: number; percent?: number }
 
 /** One plan rate-limit window: five_hour, seven_day or a gateway's spend_limit. */
 export type Limit = { kind: string; percentUsed: number; resetsAt?: string }
 
-export type DiffLine = { op: '+' | '-' | ' ' | '~'; t: string }
+/** The main session: its model, and whether a turn is running since when. */
+export type Main = { model?: string; isWorking: boolean; startedAt?: number; lastMs?: number }
 
-/** One file edit of the last turn, as the replay steps through it. */
-export type ReplayStep = { tool: string; file: string; diff: DiffLine[]; note: string }
-
-/** A risky shell command Blast Radius held, and what was decided. */
-export type Hold = {
-  command: string
-  label: string
-  summary: string
-  decision: 'waiting' | 'proceed' | 'cancel' | 'timeout' | 'interrupted' | 'error'
-}
-
-/** One tool call, as its card shows it. */
-export type Op = {
+/** One subagent, as its row shows it. */
+export type Sub = {
   id: string
-  tool: string
-  icon: string
-  detail: string
-  status: 'running' | 'done' | 'error' | 'denied'
-  ms?: number
-  preview: string[]
-  diff?: DiffLine[]
-  isSubagent?: boolean
-  /** A page the card can open in the browser: a fetch's URL, a dev server's. */
-  url?: string
+  /** Its agent type: Explore, Plan, general-purpose, a plugin's. */
+  type: string
+  /** The few words of its task. */
+  description: string
+  /** The start of the prompt it was given. */
+  prompt: string
+  model?: string
+  /** The engine's AgentStatus: pending, running, waiting, idle, completed, failed, killed. */
+  status: string
+  startedAt: number
+  endedAt?: number
+  /** Tool calls finished. */
+  tools: number
+  /** The call running now, in a few words. */
+  now?: string
+  /** The last few calls, each "✓ Read a.ts" or "✗ Bash npm test". */
+  recent: string[]
+  /** Its context fill, as the last step's usage counted it. */
+  tokens?: number
+  background: boolean
 }
-
-/** The hub's tabs. */
-export type HubTab = 'activity' | 'flags' | 'usage'
 
 declare module 'claude-code' {
   interface PluginState {
-    'gokul-hub': {
-      readings: Shaped<Reading[]>
+    cockpit: {
+      context: Shaped<Context | null>
       limits: Shaped<Limit[]>
       now: number
-      replay: Shaped<ReplayStep[]>
-      replayIndex: number
-      replayOpen: boolean
-      holds: Shaped<Hold[]>
-      ops: Shaped<Op[]>
-      tab: HubTab
+      levels: Shaped<Record<string, number>>
+      pulse: boolean
+      frame: number
+      clock: number
+      main: Shaped<Main>
+      subs: Shaped<Sub[]>
+      expanded: Shaped<string[]>
+      samples: Shaped<{ t: number; pct: number }[]>
     }
   }
 }

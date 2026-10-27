@@ -1,24 +1,10 @@
-// What the hub and its features share.
+// What cockpit and its features share.
 //
 // The engine reads `on(...)` and `$.noun.method(...)` from source, so a
 // feature is a set of top-level functions the hub calls by name, never
-// methods on an object. To add a feature, see "Adding a feature" in README.md.
+// methods on an object.
 
-export const HUB_PANE = 'gokul-hub'
-
-// Whether the hub pane is drawn now: set as it draws, cleared as it closes.
-let isShowing = false
-
-export function setHubShowing(value: boolean) {
-  isShowing = value
-}
-
-export function hubIsShowing() {
-  return isShowing
-}
-
-export const LEVEL_COLOR = { alert: 'red', warn: 'yellow', info: undefined } as const
-export const LEVEL_RANK = { alert: 0, warn: 1, info: 2 } as const
+export const COCKPIT_PANE = 'cockpit'
 
 /** 68200 → "68.2k", 1000000 → "1M". */
 export function short(n: number): string {

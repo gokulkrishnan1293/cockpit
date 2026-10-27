@@ -1,16 +1,16 @@
 {
-  "name": "gokul-hub",
+  "name": "cockpit",
   "owner": {
     "name": "gokulkrishnan1293"
   },
   "metadata": {
-    "description": "gokul-hub: one Claude Code mod hosting my other mods."
+    "description": "cockpit: a pane of instruments beside the Claude Code chat."
   },
   "plugins": [
     {
-      "name": "gokul-hub",
+      "name": "cockpit",
       "source": "./",
-      "description": "One hub for my mods: flags, context weather, plan limits, edit replay and a guard on risky shell commands."
+      "description": "A cockpit pane beside the chat, built one instrument at a time: first, context and plan limits as energy bars."
     }
   ]
 }
